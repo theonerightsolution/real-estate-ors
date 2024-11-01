@@ -1,0 +1,15 @@
+.logoImgUploadContainer {
+  display: flex;
+}
+#header-image-preview {
+  width: 108px;
+  height: 32px !important;
+  object-fit: cover;
+  margin-left: 11px;
+}
+#header-image-url {
+  height: 12px;
+}
+#upload-header-image {
+  height: 12px;
+}
