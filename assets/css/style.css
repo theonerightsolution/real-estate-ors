@@ -13619,3 +13619,7 @@ img.realEstate_ors_logo {
   justify-content: space-between;
   align-items: center;
 }
+.realEstateOrs_banner_body_text {
+  text-align: center;
+  margin-bottom: 30px;
+}

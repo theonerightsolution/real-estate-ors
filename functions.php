@@ -132,17 +132,55 @@ function realEstate_ors_display_header_settings($options)
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row">Header Setting 1</th>
-            <td>
-                <input type="text" name="realEstate_ors_options[header_setting1]" value="<?php echo esc_attr($options['header_setting1']); ?>" />
+            <th scope="row">Banner Background Image - 1 </th>
+            <td class="logoImgUploadContainer">
+                <input type="text" id="banner-image-url-1" name="realEstate_ors_options[banner_image]" value="<?php echo esc_attr($options['banner_image']); ?>" style="width: 70%;" />
+                <button id="upload-banner-image-1" class="button">Upload Image</button>
+                <br><br>
+                <img id="upload-banner-image-preview-1" src="<?php echo esc_url($options['banner_image']); ?>" style="max-width: 100%; height: auto; display: <?php echo esc_attr($options['banner_image'] ? 'block' : 'none'); ?>;" />
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row">Header Setting 2</th>
-            <td>
-                <input type="text" name="realEstate_ors_options[header_setting2]" value="<?php echo esc_attr($options['header_setting2']); ?>" />
+            <th scope="row">Banner Background Image - 2 </th>
+            <td class="logoImgUploadContainer">
+                <input type="text" id="banner-image-url-2" name="realEstate_ors_options[banner_image_2]" value="<?php echo esc_attr($options['banner_image_2']); ?>" style="width: 70%;" />
+                <button id="upload-banner-image-2" class="button">Upload Image</button>
+                <br><br>
+                <img id="upload-banner-image-preview-2" src="<?php echo esc_url($options['banner_image_2']); ?>" style="max-width: 100%; height: auto; display: <?php echo esc_attr($options['banner_image_2'] ? 'block' : 'none'); ?>;" />
             </td>
         </tr>
+        <tr valign="top">
+            <th scope="row">Banner Background Image - 3 </th>
+            <td class="logoImgUploadContainer">
+                <input type="text" id="banner-image-url-3" name="realEstate_ors_options[banner_image_3]" value="<?php echo esc_attr($options['banner_image_3']); ?>" style="width: 70%;" />
+                <button id="upload-banner-image-3" class="button">Upload Image</button>
+                <br><br>
+                <img id="upload-banner-image-preview-3" src="<?php echo esc_url($options['banner_image_3']); ?>" style="max-width: 100%; height: auto; display: <?php echo esc_attr($options['banner_image_3'] ? 'block' : 'none'); ?>;" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Banner Heading</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[banner_heading]" value="<?php echo esc_attr($options['banner_heading']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Banner Body Text</th>
+            <td>
+                <?php
+                $content = isset($options['banner_body_text']) ? $options['banner_body_text'] : ''; // Get the current value or default to an empty string
+                $editor_id = 'banner_body_text'; // A unique ID for the editor
+                $settings = array(
+                    'textarea_name' => 'realEstate_ors_options[banner_body_text]', // This matches your options array structure
+                    'media_buttons' => false, // Set to true if you want to allow media uploads
+                    'teeny' => true, // Simplified editor without some buttons
+                    'quicktags' => true, // Allows HTML editing
+                );
+                wp_editor($content, $editor_id, $settings); // Display the editor
+                ?>
+            </td>
+        </tr>
+
 
     </table>
 <?php
@@ -204,11 +242,188 @@ function realEstate_ors_display_page_settings($options)
  */
 function realEstate_ors_enqueue_media_uploader()
 {
-    // Only load media uploader on the settings page
+    // Load media uploader only on the settings page
     if (isset($_GET['page']) && $_GET['page'] === 'realEstate-ors-settings') {
         wp_enqueue_media(); // Enqueue WordPress media uploader
         wp_enqueue_script('realEstate-ors-media-uploader', get_template_directory_uri() . '/assets/js/media-uploader.js', array('jquery'), null, true); // Enqueue custom JS for media uploader
         wp_enqueue_style('realEstate-ors-admin-css', get_template_directory_uri() . '/assets/css/admin.css', array(), null); // Enqueue custom admin CSS
     }
+
+    // Enqueue CSS for property post type in the admin area
+    $screen = get_current_screen();
+    if ($screen->post_type === 'property') {
+        wp_enqueue_style('realestate-ors-property-css', get_template_directory_uri() . '/assets/css/property.css', array(), null);
+    }
 }
 add_action('admin_enqueue_scripts', 'realEstate_ors_enqueue_media_uploader');
+
+
+/**
+ * Summary of realEstate_ors_register_post_type
+ * @return void
+ */
+function realEstate_ors_register_post_type()
+{
+    $labels = array(
+        'name'               => _x('Properties', 'post type general name', 'textdomain'),
+        'singular_name'      => _x('Property', 'post type singular name', 'textdomain'),
+        'menu_name'          => _x('Properties', 'admin menu', 'textdomain'),
+        'name_admin_bar'     => _x('Property', 'add new on admin bar', 'textdomain'),
+        'add_new'            => _x('Add New', 'property', 'textdomain'),
+        'add_new_item'       => __('Add New Property', 'textdomain'),
+        'new_item'           => __('New Property', 'textdomain'),
+        'edit_item'          => __('Edit Property', 'textdomain'),
+        'view_item'          => __('View Property', 'textdomain'),
+        'all_items'          => __('All Properties', 'textdomain'),
+        'search_items'       => __('Search Properties', 'textdomain'),
+        'parent_item_colon'  => __('Parent Properties:', 'textdomain'),
+        'not_found'          => __('No properties found.', 'textdomain'),
+        'not_found_in_trash' => __('No properties found in Trash.', 'textdomain'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'properties'),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+    );
+
+    register_post_type('property', $args);
+
+    // Register Custom Taxonomy for Property Categories
+    $taxonomy_labels = array(
+        'name'              => _x('Property Categories', 'taxonomy general name', 'textdomain'),
+        'singular_name'     => _x('Property Category', 'taxonomy singular name', 'textdomain'),
+        'search_items'      => __('Search Property Categories', 'textdomain'),
+        'all_items'         => __('All Property Categories', 'textdomain'),
+        'parent_item'       => __('Parent Property Category', 'textdomain'),
+        'parent_item_colon' => __('Parent Property Category:', 'textdomain'),
+        'edit_item'         => __('Edit Property Category', 'textdomain'),
+        'update_item'       => __('Update Property Category', 'textdomain'),
+        'add_new_item'      => __('Add New Property Category', 'textdomain'),
+        'new_item_name'     => __('New Property Category Name', 'textdomain'),
+        'menu_name'         => __('Property Categories', 'textdomain'),
+    );
+
+    $taxonomy_args = array(
+        'hierarchical'      => true,
+        'labels'            => $taxonomy_labels,
+        'public'            => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array('slug' => 'property-category'),
+    );
+
+    register_taxonomy('property_category', array('property'), $taxonomy_args);
+}
+
+// Add meta box for multiple images
+function realEstate_ors_add_image_meta_box()
+{
+    add_meta_box(
+        'realestate_ors_images',
+        __('Property Images', 'textdomain'),
+        'realEstate_ors_images_callback',
+        'property'
+    );
+}
+
+add_action('add_meta_boxes', 'realEstate_ors_add_image_meta_box');
+
+function realEstate_ors_images_callback($post)
+{
+    wp_nonce_field('realestate_ors_save_images', 'realestate_ors_images_nonce');
+
+    $images = get_post_meta($post->ID, '_realestate_ors_property_images', true);
+    $images = !empty($images) ? explode(',', $images) : [];
+
+    echo '<div id="realestate-ors-images-container">';
+    foreach ($images as $image) {
+        echo '<div class="image-item">';
+        echo '<img src="' . esc_url($image) . '" style="max-width: 100%; height: auto;" />';
+        echo '<input type="hidden" name="realestate_ors_property_images[]" value="' . esc_attr($image) . '" />';
+        echo '<button class="remove-image button">Remove</button>';
+        echo '</div>';
+    }
+    echo '</div>';
+    echo '<button id="add-image" class="button">Add Image</button>';
+    echo '<script>
+        jQuery(document).ready(function($) {
+            $("#add-image").on("click", function(e) {
+                e.preventDefault();
+                var mediaUploader;
+                if (mediaUploader) {
+                    mediaUploader.open();
+                    return;
+                }
+                mediaUploader = wp.media({
+                    title: "Upload Images",
+                    button: {
+                        text: "Use this image"
+                    },
+                    multiple: true // Allow multiple selection
+                }).on("select", function() {
+                    var attachments = mediaUploader.state().get("selection").toJSON();
+                    attachments.forEach(function(attachment) {
+                        var imageHtml = \'<div class="image-item"><img src="\' + attachment.url + \'" style="max-width: 100%; height: auto;" /><input type="hidden" name="realestate_ors_property_images[]" value="\' + attachment.url + \'" /><button class="remove-image button">Remove</button></div>\';
+                        $("#realestate-ors-images-container").append(imageHtml);
+                    });
+                }).open();
+            });
+            $(document).on("click", ".remove-image", function(e) {
+                e.preventDefault();
+                $(this).closest(".image-item").remove();
+            });
+        });
+    </script>';
+}
+
+function realEstate_ors_save_images($post_id)
+{
+    // Check if our nonce is set.
+    if (!isset($_POST['realestate_ors_images_nonce'])) {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['realestate_ors_images_nonce'], 'realestate_ors_save_images')) {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don’t want to do anything.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check the user's permissions.
+    if (isset($_POST['post_type']) && 'property' === $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    // Save the images array
+    if (isset($_POST['realestate_ors_property_images'])) {
+        $images = array_map('esc_url_raw', $_POST['realestate_ors_property_images']);
+        update_post_meta($post_id, '_realestate_ors_property_images', implode(',', $images));
+    } else {
+        delete_post_meta($post_id, '_realestate_ors_property_images');
+    }
+}
+
+add_action('save_post', 'realEstate_ors_save_images');
+add_action('init', 'realEstate_ors_register_post_type');
+
+add_theme_support('post-thumbnails');

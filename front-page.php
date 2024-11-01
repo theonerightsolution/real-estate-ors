@@ -1,26 +1,40 @@
 <?php
 get_header();
+// Get the theme options
+$options = get_option('realEstate_ors_options');
+// Retrieve the logo URL
+$banner_img_1 = esc_url($options['banner_image']);
+$banner_img_2 = esc_url($options['banner_image_2']);
+$banner_img_3 = esc_url($options['banner_image_3']);
+$banner_heading = esc_attr($options['banner_heading']);
+$banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_text'] : '';
 ?>
 <!-- Hero Slider -->
 <div class="hero">
     <div class="hero-slide">
         <div
             class="img overlay"
-            style="background-image: url('<?php echo get_template_directory_uri() . '/assets/images/hero_bg_3.jpg' ?>')"></div>
+            style="background-image: url('<?php echo $banner_img_1; ?>')"></div>
         <div
             class="img overlay"
-            style="background-image: url('<?php echo get_template_directory_uri() . '/assets/images/hero_bg_2.jpg' ?>')"></div>
+            style="background-image: url('<?php echo $banner_img_2; ?>')"></div>
         <div
             class="img overlay"
-            style="background-image: url('<?php echo get_template_directory_uri() . '/assets/images/hero_bg_1.jpg' ?>')"></div>
+            style="background-image: url('<?php echo $banner_img_3; ?>')"></div>
     </div>
 
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-9 text-center">
                 <h1 class="heading" data-aos="fade-up">
-                    Easiest way to find your dream home
+                    <?php echo $banner_heading; ?>
                 </h1>
+                <div class="realEstateOrs_banner_body_text">
+                    <?php
+                    if ($banner_body_text) {
+                        echo wp_kses_post($banner_body_text); // Output the content, allowing safe HTML
+                    } ?>
+                </div>
                 <form
                     action="#"
                     class="narrow-w form-search d-flex align-items-stretch mb-3"
