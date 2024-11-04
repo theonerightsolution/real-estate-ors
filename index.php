@@ -3,6 +3,11 @@ get_header();
 $title = get_the_archive_title();
 $title = str_replace("Archives: ", "", $title);
 ?>
+<style>
+    .realEstate_ors_blog_container .pagination {
+        gap: 14px !important;
+    }
+</style>
 <!-- Banner Start -->
 <div
     class="hero page-inner overlay"
@@ -41,68 +46,77 @@ $title = str_replace("Archives: ", "", $title);
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <div class="property-slider-wrap">
-                    <div class="property-slider">
-                        <?php
-                        if (have_posts()) :
-                            while (have_posts()) : the_post(); ?>
+            <div class="col-9">
+                <div class="realEstate_ors_blog_container">
+                    <?php
+                    // Custom query for pagination
+                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+                    $args = array(
+                        'post_type' => 'post', // Replace with your post type
+                        'posts_per_page' => 3, // Number of posts per page
+                        'paged' => $paged,
+                    );
+                    $query = new WP_Query($args);
 
-                                <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                                    <header class="entry-header">
-                                        <?php
-                                        if (has_post_thumbnail()) {
-                                            the_post_thumbnail('thumbnail', array('class' => 'realEstateOrs-thumb')); // Custom class added here
-                                        } ?>
-                                        <h2 class="entry-title">
-                                            <a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
-                                        </h2>
-                                        <div class="entry-meta">
-                                            <span class="posted-on"><?php echo get_the_date(); ?></span>
-                                            <span class="byline"> by <?php the_author(); ?></span>
-                                        </div>
-                                    </header>
+                    if ($query->have_posts()) :
+                        while ($query->have_posts()) : $query->the_post(); ?>
 
-                                    <div class="entry-content">
-                                        <?php
-                                        the_excerpt(); // Display the excerpt of the post.
-                                        ?>
+                            <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                                <header class="entry-header">
+                                    <?php
+                                    if (has_post_thumbnail()) {
+                                        the_post_thumbnail('thumbnail', array('class' => 'realEstateOrs-thumb')); // Custom class added here
+                                    } ?>
+                                    <h2 class="entry-title">
+                                        <a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
+                                    </h2>
+                                    <div class="entry-meta">
+                                        <span class="posted-on"><?php echo get_the_date(); ?></span>
+                                        <span class="byline"> by <?php the_author(); ?></span>
                                     </div>
+                                </header>
 
-                                    <footer class="entry-footer">
-                                        <a href="<?php the_permalink(); ?>" class="read-more">Read More</a>
-                                    </footer>
-                                </article>
+                                <div class="entry-content">
+                                    <?php
+                                    the_excerpt(); // Display the excerpt of the post.
+                                    ?>
+                                </div>
 
-                        <?php endwhile;
+                                <footer class="entry-footer">
+                                    <a href="<?php the_permalink(); ?>" class="read-more">Read More</a>
+                                </footer>
+                            </article>
 
-                            the_posts_navigation();
-
-                        else :
-                            echo '<p>No posts found.</p>';
-                        endif;
-                        ?>
-
-
-                    </div>
-
-                    <div
-                        id="property-nav"
-                        class="controls"
-                        tabindex="0"
-                        aria-label="Carousel Navigation">
-                        <span
-                            class="prev"
-                            data-controls="prev"
-                            aria-controls="property"
-                            tabindex="-1">Prev</span>
-                        <span
-                            class="next"
-                            data-controls="next"
-                            aria-controls="property"
-                            tabindex="-1">Next</span>
-                    </div>
+                        <?php endwhile; ?>
                 </div>
+                <div class="pagination">
+                    <?php
+                        // Pagination links
+                        echo paginate_links(array(
+                            'total' => $query->max_num_pages,
+                            'current' => $paged,
+                            'mid_size' => 2,
+                            'prev_text' => __('&laquo; Previous', 'real-estate-ors'),
+                            'next_text' => __('Next &raquo;', 'real-estate-ors'),
+
+                        ));
+                    ?>
+                </div>
+
+            <?php else :
+                        echo '<p>No posts found.</p>';
+                    endif;
+
+                    // Reset Post Data
+                    wp_reset_postdata();
+            ?>
+
+
+            </div>
+            <div class="col-3">
+                <?php if (is_active_sidebar('blog-widget')) : ?>
+                    <?php dynamic_sidebar('blog-widget'); ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

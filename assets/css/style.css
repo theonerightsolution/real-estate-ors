@@ -13340,14 +13340,6 @@ textarea {
   margin: 0;
   padding: 0;
 }
-.box-feature [class^="flaticon-"] {
-  color: #00204a;
-  font-size: 60px;
-  margin: 0 0 10px 0;
-  display: block;
-  padding: 0;
-  line-height: 0;
-}
 
 .custom-pagination a {
   display: inline-block;
@@ -13623,4 +13615,56 @@ img.realEstate_ors_logo {
 }
 .realEstateSinglePost .entry-meta {
   text-align: left !important;
+}
+
+.realEstate_ors_blog_container article {
+  background: #ffe5e5;
+  margin: 0 5px;
+  padding: 15px 15px;
+  border-radius: 12px;
+  filter: drop-shadow(8px 13px 6px #eee);
+}
+.realEstate_ors_blog_container article p {
+  overflow: hidden;
+  height: 85px;
+  margin-bottom: 0px;
+}
+.realEstate_ors_blog_container article {
+  margin: 30px 0px;
+}
+.realEstate_ors_blog_container .entry-footer {
+  text-decoration: underline;
+}
+.realEstate_ors_blog_container .pagination {
+  gap: 14px !important;
+}
+span.page-numbers.current {
+  background: #00204a;
+  color: wheat;
+  padding: 3px 9px;
+  border-radius: 33px;
+}
+.page-numbers {
+  padding: 3px 9px;
+  border-radius: 33px;
+}
+.comment-form-comment {
+  display: flex;
+  flex-direction: column;
+}
+.realEstate_ors_comments #reply-title {
+  font-weight: 800;
+}
+.realEstate_ors_comments #comment {
+  border-radius: 8px;
+  width: 531px;
+  height: 95px !important;
+}
+.realEstate_ors_comments input#submit {
+  background: #3d69a4;
+  border: none;
+  color: wheat;
+  opacity: 1;
+  padding: 5px 12px;
+  border-radius: 8px;
 }

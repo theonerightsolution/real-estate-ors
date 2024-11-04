@@ -185,7 +185,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
         <div class="row">
             <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
                 <div class="box-feature">
-                    <span class="flaticon-house"></span>
+                    <span class=""></span>
                     <h3 class="mb-3">Our Properties</h3>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -196,7 +196,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
             </div>
             <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="500">
                 <div class="box-feature">
-                    <span class="flaticon-building"></span>
+                    <span class="-building"></span>
                     <h3 class="mb-3">Property for Sale</h3>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -207,7 +207,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
             </div>
             <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
                 <div class="box-feature">
-                    <span class="flaticon-house-3"></span>
+                    <span class="-house-3"></span>
                     <h3 class="mb-3">Real Estate Agent</h3>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -218,7 +218,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
             </div>
             <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
                 <div class="box-feature">
-                    <span class="flaticon-house-1"></span>
+                    <span class="-house-1"></span>
                     <h3 class="mb-3">House for Sale</h3>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.

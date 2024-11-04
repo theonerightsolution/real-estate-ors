@@ -9,7 +9,7 @@ get_header();
                 <h1 class="heading text-white" data-aos="fade-up"><?php echo get_the_title(); ?></h1>
                 <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
                     <ol class="breadcrumb text-center justify-content-center">
-                        <li class="breadcrumb-item"><a href="<?php echo home_url(); ?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo esc_url(home_url()); ?>">Home</a></li>
                         <li class="breadcrumb-item active text-white-50" aria-current="page"><?php echo get_the_title(); ?></li>
                     </ol>
                 </nav>
@@ -68,18 +68,19 @@ get_header();
                     <?php wp_reset_postdata(); ?>
                 </div>
 
-                <?php comments_template(); // Load comments template 
-                ?>
+                <div class="realEstate_ors_comments">
+                    <?php comments_template(); // Load comments template 
+                    ?>
+                </div>
             </div>
 
             <div class="col-lg-3">
                 <div class="sidebar">
-                    <h3 class="font-weight-bold text-primary">Sidebar</h3>
-                    <?php if (is_active_sidebar('sidebar-1')) : ?>
-                        <div id="secondary" class="widget-area">
-                            <?php dynamic_sidebar('sidebar-1'); ?>
-                        </div>
-                    <?php endif; ?>
+                    <div class="col-3">
+                        <?php if (is_active_sidebar('blog-widget')) : ?>
+                            <?php dynamic_sidebar('blog-widget'); ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ $logo_url = esc_url($options['header_image']);
     <?php wp_head(); ?>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Untree.co" />
+    <meta name="author" content="onerightsolution.in" />
     <meta name="description" content="" />
     <meta name="keywords" content="bootstrap, bootstrap5" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
