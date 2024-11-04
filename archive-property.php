@@ -6,7 +6,7 @@ $title = str_replace("Archives: ", "", $title);
 <!-- Banner Start -->
 <div
     class="hero page-inner overlay"
-    style="background-image: url(<?php echo get_template_directory_uri() . '/assets/images/hero_bg_1.jpg'; ?>)">
+    style="background-image: url(<?php echo esc_url(get_template_directory_uri()) . '/assets/images/hero_bg_1.jpg'; ?>)">
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-9 text-center mt-5">
@@ -69,7 +69,7 @@ $title = str_replace("Archives: ", "", $title);
                                         <?php if ($featured_image_url): ?>
                                             <img src="<?php echo esc_url($featured_image_url); ?>" alt="<?php the_title_attribute(); ?>" class="img-fluid" />
                                         <?php else: ?>
-                                            <img src="<?php echo get_template_directory_uri() . '/assets/images/default.jpg'; ?>" alt="Default Image" class="img-fluid" />
+                                            <img src="<?php echo esc_url(get_template_directory_uri()) . '/assets/images/default.jpg'; ?>" alt="Default Image" class="img-fluid" />
                                         <?php endif; ?>
                                     </a>
 

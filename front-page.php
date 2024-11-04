@@ -120,7 +120,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
                                         <?php if ($featured_image_url): ?>
                                             <img src="<?php echo esc_url($featured_image_url); ?>" alt="<?php the_title_attribute(); ?>" class="img-fluid" />
                                         <?php else: ?>
-                                            <img src="<?php echo get_template_directory_uri() . '/assets/images/default.jpg'; ?>" alt="Default Image" class="img-fluid" />
+                                            <img src="<?php echo esc_url(get_template_directory_uri()) . '/assets/images/default.jpg'; ?>" alt="Default Image" class="img-fluid" />
                                         <?php endif; ?>
                                     </a>
 
@@ -277,7 +277,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
                         <div class="item">
                             <div class="testimonial">
                                 <img
-                                    src="<?php echo esc_url($featured_image_url ? $featured_image_url : get_template_directory_uri() . '/assets/images/person_1-min.jpg'); ?>"
+                                    src="<?php echo esc_url($featured_image_url ? $featured_image_url : esc_url(get_template_directory_uri()) . '/assets/images/person_1-min.jpg'); ?>"
                                     alt="<?php echo esc_attr($name); ?>"
                                     class="img-fluid rounded-circle w-25 mb-4" />
 
@@ -330,7 +330,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
         <div class="row justify-content-between mb-5">
             <div class="col-lg-7 mb-5 mb-lg-0 order-lg-2">
                 <div class="img-about dots">
-                    <img src="<?php echo get_template_directory_uri() . '/assets/images/hero_bg_3.jpg' ?>" alt="Image" class="img-fluid" />
+                    <img src="<?php echo esc_url(get_template_directory_uri()) . '/assets/images/hero_bg_3.jpg' ?>" alt="Image" class="img-fluid" />
                 </div>
             </div>
             <div class="col-lg-4">
@@ -468,7 +468,7 @@ $cta_button_url = esc_url($options['cta_button_url']);
                                         class="img-fluid" />
                                 <?php else : ?>
                                     <img
-                                        src="<?php echo get_template_directory_uri() . '/assets/images/default-person.jpg'; ?>" <!-- Use a default image if no featured image -->
+                                        src="<?php echo esc_url(get_template_directory_uri()) . '/assets/images/default-person.jpg'; ?>" <!-- Use a default image if no featured image -->
                                     alt="Default Image"
                                     class="img-fluid" />
                                 <?php endif; ?>

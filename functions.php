@@ -8,15 +8,19 @@ require_once('nav/wp-bootstrap-navlist-walker.php');
 /**
  * Register Navigation Menus
  */
-function realEstate_ors_menus()
+function realEstate_ors_setup()
 {
+
+    add_theme_support('title-tag');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('post-thumbnails');
     register_nav_menus(array(
-        'primary' => __('Primary Menu', 'realEstateOrs'), // Primary Menu
-        'footer'  => __('Footer Menu', 'realEstateOrs'),  // Footer Menu
-        'footer2'  => __('Footer Menu 2', 'realEstateOrs'),  // Footer Menu
+        'primary' => __('Primary Menu', 'real-estate-ors'), // Primary Menu
+        'footer'  => __('Footer Menu', 'real-estate-ors'),  // Footer Menu
+        'footer2'  => __('Footer Menu 2', 'real-estate-ors'),  // Footer Menu
     ));
 }
-add_action('after_setup_theme', 'realEstate_ors_menus');
+add_action('after_setup_theme', 'realEstate_ors_setup');
 
 /**
  * Enqueue styles and scripts
@@ -417,20 +421,20 @@ add_action('admin_enqueue_scripts', 'realEstate_ors_enqueue_media_uploader');
 function realEstate_ors_register_post_type()
 {
     $labels = array(
-        'name'               => _x('Properties', 'post type general name', 'textdomain'),
-        'singular_name'      => _x('Property', 'post type singular name', 'textdomain'),
-        'menu_name'          => _x('Properties', 'admin menu', 'textdomain'),
-        'name_admin_bar'     => _x('Property', 'add new on admin bar', 'textdomain'),
-        'add_new'            => _x('Add New', 'property', 'textdomain'),
-        'add_new_item'       => __('Add New Property', 'textdomain'),
-        'new_item'           => __('New Property', 'textdomain'),
-        'edit_item'          => __('Edit Property', 'textdomain'),
-        'view_item'          => __('View Property', 'textdomain'),
-        'all_items'          => __('All Properties', 'textdomain'),
-        'search_items'       => __('Search Properties', 'textdomain'),
-        'parent_item_colon'  => __('Parent Properties:', 'textdomain'),
-        'not_found'          => __('No properties found.', 'textdomain'),
-        'not_found_in_trash' => __('No properties found in Trash.', 'textdomain'),
+        'name'               => _x('Properties', 'post type general name', 'real-estate-ors'),
+        'singular_name'      => _x('Property', 'post type singular name', 'real-estate-ors'),
+        'menu_name'          => _x('Properties', 'admin menu', 'real-estate-ors'),
+        'name_admin_bar'     => _x('Property', 'add new on admin bar', 'real-estate-ors'),
+        'add_new'            => _x('Add New', 'property', 'real-estate-ors'),
+        'add_new_item'       => __('Add New Property', 'real-estate-ors'),
+        'new_item'           => __('New Property', 'real-estate-ors'),
+        'edit_item'          => __('Edit Property', 'real-estate-ors'),
+        'view_item'          => __('View Property', 'real-estate-ors'),
+        'all_items'          => __('All Properties', 'real-estate-ors'),
+        'search_items'       => __('Search Properties', 'real-estate-ors'),
+        'parent_item_colon'  => __('Parent Properties:', 'real-estate-ors'),
+        'not_found'          => __('No properties found.', 'real-estate-ors'),
+        'not_found_in_trash' => __('No properties found in Trash.', 'real-estate-ors'),
     );
 
     $args = array(
@@ -452,17 +456,17 @@ function realEstate_ors_register_post_type()
 
     // Register Custom Taxonomy for Property Categories
     $taxonomy_labels = array(
-        'name'              => _x('Property Categories', 'taxonomy general name', 'textdomain'),
-        'singular_name'     => _x('Property Category', 'taxonomy singular name', 'textdomain'),
-        'search_items'      => __('Search Property Categories', 'textdomain'),
-        'all_items'         => __('All Property Categories', 'textdomain'),
-        'parent_item'       => __('Parent Property Category', 'textdomain'),
-        'parent_item_colon' => __('Parent Property Category:', 'textdomain'),
-        'edit_item'         => __('Edit Property Category', 'textdomain'),
-        'update_item'       => __('Update Property Category', 'textdomain'),
-        'add_new_item'      => __('Add New Property Category', 'textdomain'),
-        'new_item_name'     => __('New Property Category Name', 'textdomain'),
-        'menu_name'         => __('Property Categories', 'textdomain'),
+        'name'              => _x('Property Categories', 'taxonomy general name', 'real-estate-ors'),
+        'singular_name'     => _x('Property Category', 'taxonomy singular name', 'real-estate-ors'),
+        'search_items'      => __('Search Property Categories', 'real-estate-ors'),
+        'all_items'         => __('All Property Categories', 'real-estate-ors'),
+        'parent_item'       => __('Parent Property Category', 'real-estate-ors'),
+        'parent_item_colon' => __('Parent Property Category:', 'real-estate-ors'),
+        'edit_item'         => __('Edit Property Category', 'real-estate-ors'),
+        'update_item'       => __('Update Property Category', 'real-estate-ors'),
+        'add_new_item'      => __('Add New Property Category', 'real-estate-ors'),
+        'new_item_name'     => __('New Property Category Name', 'real-estate-ors'),
+        'menu_name'         => __('Property Categories', 'real-estate-ors'),
     );
 
     $taxonomy_args = array(
@@ -482,7 +486,7 @@ function realEstate_ors_add_meta_boxes()
 {
     add_meta_box(
         'realestate_ors_property_details',
-        __('Property Details', 'textdomain'),
+        __('Property Details', 'real-estate-ors'),
         'realEstate_ors_property_details_callback',
         'property'
     );
@@ -501,22 +505,22 @@ function realEstate_ors_property_details_callback($post)
     $bathrooms = get_post_meta($post->ID, '_realestate_ors_bathrooms', true);
     $price = get_post_meta($post->ID, '_realestate_ors_price', true);
 
-    echo '<label for="realestate_ors_address">' . __('Address', 'textdomain') . '</label>';
+    echo '<label for="realestate_ors_address">' . __('Address', 'real-estate-ors') . '</label>';
     echo '<input type="text" id="realestate_ors_address" name="realestate_ors_address" value="' . esc_attr($address) . '" style="width: 100%;" />';
 
-    echo '<label for="realestate_ors_state">' . __('State', 'textdomain') . '</label>';
+    echo '<label for="realestate_ors_state">' . __('State', 'real-estate-ors') . '</label>';
     echo '<input type="text" id="realestate_ors_state" name="realestate_ors_state" value="' . esc_attr($state) . '" style="width: 100%;" />';
 
-    echo '<label for="realestate_ors_country">' . __('Country', 'textdomain') . '</label>';
+    echo '<label for="realestate_ors_country">' . __('Country', 'real-estate-ors') . '</label>';
     echo '<input type="text" id="realestate_ors_country" name="realestate_ors_country" value="' . esc_attr($country) . '" style="width: 100%;" />';
 
-    echo '<label for="realestate_ors_rooms">' . __('No. of Rooms', 'textdomain') . '</label>';
+    echo '<label for="realestate_ors_rooms">' . __('No. of Rooms', 'real-estate-ors') . '</label>';
     echo '<input type="number" id="realestate_ors_rooms" name="realestate_ors_rooms" value="' . esc_attr($rooms) . '" min="0" />';
 
-    echo '<label for="realestate_ors_bathrooms">' . __('No. of Bathrooms', 'textdomain') . '</label>';
+    echo '<label for="realestate_ors_bathrooms">' . __('No. of Bathrooms', 'real-estate-ors') . '</label>';
     echo '<input type="number" id="realestate_ors_bathrooms" name="realestate_ors_bathrooms" value="' . esc_attr($bathrooms) . '" min="0" />';
 
-    echo '<label for="realestate_ors_price">' . __('Price', 'textdomain') . '</label>';
+    echo '<label for="realestate_ors_price">' . __('Price', 'real-estate-ors') . '</label>';
     echo '<input type="number" id="realestate_ors_price" name="realestate_ors_price" value="' . esc_attr($price) . '" min="0" step="0.01" />';
 }
 
@@ -570,7 +574,7 @@ function realEstate_ors_save_property_details($post_id)
 add_action('save_post', 'realEstate_ors_save_property_details');
 add_action('init', 'realEstate_ors_register_post_type');
 
-add_theme_support('post-thumbnails');
+
 
 // Add the existing image saving function as well
 add_action('save_post', 'realEstate_ors_save_images');
@@ -581,7 +585,7 @@ function realEstate_ors_add_image_meta_box()
 {
     add_meta_box(
         'realestate_ors_images',
-        __('Property Images', 'textdomain'),
+        __('Property Images', 'real-estate-ors'),
         'realEstate_ors_images_callback',
         'property'
     );
@@ -687,20 +691,20 @@ add_theme_support('post-thumbnails');
 function realEstate_ors_register_testimonial_post_type()
 {
     $labels = array(
-        'name'               => _x('Testimonials', 'post type general name', 'textdomain'),
-        'singular_name'      => _x('Testimonial', 'post type singular name', 'textdomain'),
-        'menu_name'          => _x('Testimonials', 'admin menu', 'textdomain'),
-        'name_admin_bar'     => _x('Testimonial', 'add new on admin bar', 'textdomain'),
-        'add_new'            => _x('Add New', 'testimonial', 'textdomain'),
-        'add_new_item'       => __('Add New Testimonial', 'textdomain'),
-        'new_item'           => __('New Testimonial', 'textdomain'),
-        'edit_item'          => __('Edit Testimonial', 'textdomain'),
-        'view_item'          => __('View Testimonial', 'textdomain'),
-        'all_items'          => __('All Testimonials', 'textdomain'),
-        'search_items'       => __('Search Testimonials', 'textdomain'),
-        'parent_item_colon'  => __('Parent Testimonials:', 'textdomain'),
-        'not_found'          => __('No testimonials found.', 'textdomain'),
-        'not_found_in_trash' => __('No testimonials found in Trash.', 'textdomain'),
+        'name'               => _x('Testimonials', 'post type general name', 'real-estate-ors'),
+        'singular_name'      => _x('Testimonial', 'post type singular name', 'real-estate-ors'),
+        'menu_name'          => _x('Testimonials', 'admin menu', 'real-estate-ors'),
+        'name_admin_bar'     => _x('Testimonial', 'add new on admin bar', 'real-estate-ors'),
+        'add_new'            => _x('Add New', 'testimonial', 'real-estate-ors'),
+        'add_new_item'       => __('Add New Testimonial', 'real-estate-ors'),
+        'new_item'           => __('New Testimonial', 'real-estate-ors'),
+        'edit_item'          => __('Edit Testimonial', 'real-estate-ors'),
+        'view_item'          => __('View Testimonial', 'real-estate-ors'),
+        'all_items'          => __('All Testimonials', 'real-estate-ors'),
+        'search_items'       => __('Search Testimonials', 'real-estate-ors'),
+        'parent_item_colon'  => __('Parent Testimonials:', 'real-estate-ors'),
+        'not_found'          => __('No testimonials found.', 'real-estate-ors'),
+        'not_found_in_trash' => __('No testimonials found in Trash.', 'real-estate-ors'),
     );
 
     $args = array(
@@ -801,37 +805,37 @@ add_action('save_post', 'realEstate_ors_save_testimonial_meta');
 function create_agents_post_type()
 {
     $labels = array(
-        'name'                  => _x('Agents', 'Post Type General Name', 'text_domain'),
-        'singular_name'         => _x('Agent', 'Post Type Singular Name', 'text_domain'),
-        'menu_name'             => __('Agents', 'text_domain'),
-        'name_admin_bar'        => __('Agent', 'text_domain'),
-        'archives'              => __('Agent Archives', 'text_domain'),
-        'attributes'            => __('Agent Attributes', 'text_domain'),
-        'parent_item_colon'     => __('Parent Agent:', 'text_domain'),
-        'all_items'             => __('All Agents', 'text_domain'),
-        'add_new_item'          => __('Add New Agent', 'text_domain'),
-        'add_new'               => __('Add New', 'text_domain'),
-        'new_item'              => __('New Agent', 'text_domain'),
-        'edit_item'             => __('Edit Agent', 'text_domain'),
-        'update_item'           => __('Update Agent', 'text_domain'),
-        'view_item'             => __('View Agent', 'text_domain'),
-        'view_items'            => __('View Agents', 'text_domain'),
-        'search_items'          => __('Search Agent', 'text_domain'),
-        'not_found'             => __('Not found', 'text_domain'),
-        'not_found_in_trash'    => __('Not found in Trash', 'text_domain'),
-        'featured_image'        => __('Featured Image', 'text_domain'),
-        'set_featured_image'    => __('Set featured image', 'text_domain'),
-        'remove_featured_image' => __('Remove featured image', 'text_domain'),
-        'use_featured_image'    => __('Use as featured image', 'text_domain'),
-        'insert_into_item'      => __('Insert into agent', 'text_domain'),
-        'uploaded_to_this_item' => __('Uploaded to this agent', 'text_domain'),
-        'items_list'            => __('Agents list', 'text_domain'),
-        'items_list_navigation'  => __('Agents list navigation', 'text_domain'),
-        'filter_items_list'     => __('Filter agents list', 'text_domain'),
+        'name'                  => _x('Agents', 'Post Type General Name', 'real-estate-ors'),
+        'singular_name'         => _x('Agent', 'Post Type Singular Name', 'real-estate-ors'),
+        'menu_name'             => __('Agents', 'real-estate-ors'),
+        'name_admin_bar'        => __('Agent', 'real-estate-ors'),
+        'archives'              => __('Agent Archives', 'real-estate-ors'),
+        'attributes'            => __('Agent Attributes', 'real-estate-ors'),
+        'parent_item_colon'     => __('Parent Agent:', 'real-estate-ors'),
+        'all_items'             => __('All Agents', 'real-estate-ors'),
+        'add_new_item'          => __('Add New Agent', 'real-estate-ors'),
+        'add_new'               => __('Add New', 'real-estate-ors'),
+        'new_item'              => __('New Agent', 'real-estate-ors'),
+        'edit_item'             => __('Edit Agent', 'real-estate-ors'),
+        'update_item'           => __('Update Agent', 'real-estate-ors'),
+        'view_item'             => __('View Agent', 'real-estate-ors'),
+        'view_items'            => __('View Agents', 'real-estate-ors'),
+        'search_items'          => __('Search Agent', 'real-estate-ors'),
+        'not_found'             => __('Not found', 'real-estate-ors'),
+        'not_found_in_trash'    => __('Not found in Trash', 'real-estate-ors'),
+        'featured_image'        => __('Featured Image', 'real-estate-ors'),
+        'set_featured_image'    => __('Set featured image', 'real-estate-ors'),
+        'remove_featured_image' => __('Remove featured image', 'real-estate-ors'),
+        'use_featured_image'    => __('Use as featured image', 'real-estate-ors'),
+        'insert_into_item'      => __('Insert into agent', 'real-estate-ors'),
+        'uploaded_to_this_item' => __('Uploaded to this agent', 'real-estate-ors'),
+        'items_list'            => __('Agents list', 'real-estate-ors'),
+        'items_list_navigation'  => __('Agents list navigation', 'real-estate-ors'),
+        'filter_items_list'     => __('Filter agents list', 'real-estate-ors'),
     );
     $args = array(
-        'label'                 => __('Agent', 'text_domain'),
-        'description'           => __('Post Type for Agents', 'text_domain'),
+        'label'                 => __('Agent', 'real-estate-ors'),
+        'description'           => __('Post Type for Agents', 'real-estate-ors'),
         'labels'                => $labels,
         'supports'              => array('title', 'editor', 'thumbnail'), // Featured image support
         'public'                => true,
@@ -857,7 +861,7 @@ function add_agents_meta_boxes()
 {
     add_meta_box(
         'agents_social_media',
-        __('Social Media Links', 'text_domain'),
+        __('Social Media Links', 'real-estate-ors'),
         'render_agents_social_media_meta_box',
         'agents',
         'normal',
@@ -876,16 +880,16 @@ function render_agents_social_media_meta_box($post)
 
     // Render the form fields
 ?>
-    <label for="fb_link"><?php _e('Facebook URL:', 'text_domain'); ?></label>
+    <label for="fb_link"><?php _e('Facebook URL:', 'real-estate-ors'); ?></label>
     <input type="text" id="fb_link" name="fb_link" value="<?php echo esc_attr($fb_link); ?>" style="width: 100%;" />
 
-    <label for="insta_link"><?php _e('Instagram URL:', 'text_domain'); ?></label>
+    <label for="insta_link"><?php _e('Instagram URL:', 'real-estate-ors'); ?></label>
     <input type="text" id="insta_link" name="insta_link" value="<?php echo esc_attr($insta_link); ?>" style="width: 100%;" />
 
-    <label for="linkedin_link"><?php _e('LinkedIn URL:', 'text_domain'); ?></label>
+    <label for="linkedin_link"><?php _e('LinkedIn URL:', 'real-estate-ors'); ?></label>
     <input type="text" id="linkedin_link" name="linkedin_link" value="<?php echo esc_attr($linkedin_link); ?>" style="width: 100%;" />
 
-    <label for="twitter_link"><?php _e('Twitter URL:', 'text_domain'); ?></label>
+    <label for="twitter_link"><?php _e('Twitter URL:', 'real-estate-ors'); ?></label>
     <input type="text" id="twitter_link" name="twitter_link" value="<?php echo esc_attr($twitter_link); ?>" style="width: 100%;" />
 <?php
 }
@@ -913,9 +917,9 @@ add_action('save_post', 'save_agents_meta_boxes');
 function realEstate_ors_widgets_init()
 {
     register_sidebar(array(
-        'name'          => __('Footer Widget Area 1', 'realEstateOrs'),
+        'name'          => __('Footer Widget Area 1', 'real-estate-ors'),
         'id'            => 'footer-widget-1',
-        'description'   => __('First footer widget area', 'realEstateOrs'),
+        'description'   => __('First footer widget area', 'real-estate-ors'),
         'before_widget' => '<div class="footer-widget">',
         'after_widget'  => '</div>',
         'before_title'  => '<h3 class="footer-widget-title">',
@@ -923,9 +927,9 @@ function realEstate_ors_widgets_init()
     ));
 
     register_sidebar(array(
-        'name'          => __('Footer Widget Area 2', 'realEstateOrs'),
+        'name'          => __('Footer Widget Area 2', 'real-estate-ors'),
         'id'            => 'footer-widget-2',
-        'description'   => __('Second footer widget area', 'realEstateOrs'),
+        'description'   => __('Second footer widget area', 'real-estate-ors'),
         'before_widget' => '<div class="footer-widget">',
         'after_widget'  => '</div>',
         'before_title'  => '<h3 class="footer-widget-title">',
@@ -933,9 +937,9 @@ function realEstate_ors_widgets_init()
     ));
 
     register_sidebar(array(
-        'name'          => __('Footer Widget Area 3', 'realEstateOrs'),
+        'name'          => __('Footer Widget Area 3', 'real-estate-ors'),
         'id'            => 'footer-widget-3',
-        'description'   => __('Third footer widget area', 'realEstateOrs'),
+        'description'   => __('Third footer widget area', 'real-estate-ors'),
         'before_widget' => '<div class="footer-widget">',
         'after_widget'  => '</div>',
         'before_title'  => '<h3 class="footer-widget-title">',

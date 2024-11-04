@@ -4,7 +4,7 @@ $current_title = get_the_title();
 <section class="realEstate_ors_page_template">
     <div
         class="hero page-inner overlay"
-        style="background-image: url('<?php echo get_template_directory_uri() . '/assets/images/hero_bg_1.jpg' ?>')">
+        style="background-image: url('<?php echo esc_url(get_template_directory_uri()) . '/assets/images/hero_bg_1.jpg' ?>')">
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-9 text-center mt-5">
