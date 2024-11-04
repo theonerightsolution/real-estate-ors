@@ -5,6 +5,8 @@ $footer_fb_link = esc_url_raw($options['footer_fb_link']);
 $footer_insta_link = esc_url_raw($options['footer_insta_link']);
 $footer_linkedin_link = esc_url_raw($options['footer_linkedin_link']);
 $footer_twitter_link = esc_url_raw($options['footer_twitter_link']);
+$copyright_text = esc_attr($options['copyright_text']);
+$copyright_url = esc_url($options['copyright_url']);
 ?>
 <div class="site-footer">
     <div class="container">
@@ -89,7 +91,7 @@ $footer_twitter_link = esc_url_raw($options['footer_twitter_link']);
                         document.write(new Date().getFullYear());
                     </script>
                     . All Rights Reserved. &mdash; Designed with love by
-                    <a href="https://onerightsolution.in/">One Right Solution</a>
+                    <a href="<?php echo esc_url($copyright_url); ?>"><?php echo esc_html($copyright_text); ?></a>
                 </p>
 
             </div>

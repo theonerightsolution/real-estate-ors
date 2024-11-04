@@ -13,8 +13,6 @@ $logo_url = esc_url($options['header_image']);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Untree.co" />
-    <link rel="shortcut icon" href="favicon.png" />
-
     <meta name="description" content="" />
     <meta name="keywords" content="bootstrap, bootstrap5" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,7 +39,7 @@ $logo_url = esc_url($options['header_image']);
         <div class="container">
             <div class="menu-bg-wrap">
                 <div class="site-navigation">
-                    <a href="<?php echo esc_url(site_url()); ?>" class=" logo m-0 float-start">
+                    <a href="<?php echo esc_url(home_url()); ?>" class=" logo m-0 float-start">
                         <?php
                         if ($logo_url) {
                             echo "<img src='" . $logo_url . "' class='realEstate_ors_logo' alt='$site_name'>";

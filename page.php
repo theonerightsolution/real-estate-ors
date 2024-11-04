@@ -15,7 +15,7 @@ $current_title = get_the_title();
                         data-aos="fade-up"
                         data-aos-delay="200">
                         <ol class="breadcrumb text-center justify-content-center">
-                            <li class="breadcrumb-item"><a href="<?php echo esc_url(site_url()); ?>">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo esc_url(home_url()); ?>">Home</a></li>
                             <li
                                 class="breadcrumb-item active text-white-50"
                                 aria-current="page">

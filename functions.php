@@ -363,6 +363,18 @@ function realEstate_ors_display_footer_settings($options)
                 <input type="url" name="realEstate_ors_options[footer_twitter_link]" value="<?php echo esc_attr($options['footer_twitter_link']); ?>" placeholder="https://twitter.com/yourprofile" />
             </td>
         </tr>
+        <tr valign="top">
+            <th scope="row">Copyright Text</th>
+            <td>
+                <input type="text" name="realEstate_ors_options[copyright_text]" value="<?php echo esc_attr($options['copyright_text']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Copyright URL</th>
+            <td>
+                <input type="url" name="realEstate_ors_options[copyright_url]" value="<?php echo esc_attr($options['copyright_url']); ?>" />
+            </td>
+        </tr>
     </table>
 <?php
 }
