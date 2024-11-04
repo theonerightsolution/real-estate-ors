@@ -11,11 +11,12 @@ require_once('nav/wp-bootstrap-navlist-walker.php');
 function realEstate_ors_menus()
 {
     register_nav_menus(array(
-        'primary' => __('Primary Menu', 'realEstateOrs'), // 'primary' is the location slug
+        'primary' => __('Primary Menu', 'realEstateOrs'), // Primary Menu
+        'footer'  => __('Footer Menu', 'realEstateOrs'),  // Footer Menu
+        'footer2'  => __('Footer Menu 2', 'realEstateOrs'),  // Footer Menu
     ));
 }
 add_action('after_setup_theme', 'realEstate_ors_menus');
-
 
 /**
  * Enqueue styles and scripts
@@ -75,11 +76,28 @@ function realEstate_ors_add_admin_menu()
 add_action('admin_menu', 'realEstate_ors_add_admin_menu');
 
 /**
+ * Helper method for saving the settings
+ * @param mixed $new_options
+ * @return void
+ */
+function realEstate_ors_save_options($new_options)
+{
+    $current_options = get_option('realEstate_ors_options', []);
+    $merged_options = array_merge($current_options, $new_options);
+    update_option('realEstate_ors_options', $merged_options);
+}
+
+/**
  * Summary of realEstate_ors_settings_page
  * @return void
  */
 function realEstate_ors_settings_page()
 {
+    // Check if form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['realEstate_ors_options'])) {
+        realEstate_ors_save_options($_POST['realEstate_ors_options']);
+    }
+
     // Get the current active tab or set a default
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'header';
 ?>
@@ -92,7 +110,7 @@ function realEstate_ors_settings_page()
             <a href="?page=realEstate-ors-settings&tab=page" class="nav-tab <?php echo $active_tab === 'page' ? 'nav-tab-active' : ''; ?>">Page</a>
         </h2>
 
-        <form method="post" action="options.php">
+        <form method="post" action="">
             <?php
             settings_fields('realEstate_ors_options_group'); // Output security fields
             $options = get_option('realEstate_ors_options'); // Retrieve current options
@@ -112,6 +130,7 @@ function realEstate_ors_settings_page()
     </div>
 <?php
 }
+
 /**
  * Summary of realEstate_ors_display_header_settings
  * @param mixed $options
@@ -195,22 +214,36 @@ function realEstate_ors_display_footer_settings($options)
 {
 ?>
     <h2>Footer Settings</h2>
+    <h2>Add URL Of Social Icons</h2>
     <table class="form-table">
         <tr valign="top">
-            <th scope="row">Footer Setting 1</th>
+            <th scope="row">Facebook URL</th>
             <td>
-                <input type="text" name="realEstate_ors_options[footer_setting1]" value="<?php echo esc_attr($options['footer_setting1']); ?>" />
+                <input type="url" name="realEstate_ors_options[footer_fb_link]" value="<?php echo esc_attr($options['footer_fb_link']); ?>" placeholder="https://facebook.com/yourprofile" />
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row">Footer Setting 2</th>
+            <th scope="row">Instagram URL</th>
             <td>
-                <input type="text" name="realEstate_ors_options[footer_setting2]" value="<?php echo esc_attr($options['footer_setting2']); ?>" />
+                <input type="url" name="realEstate_ors_options[footer_insta_link]" value="<?php echo esc_attr($options['footer_insta_link']); ?>" placeholder="https://instagram.com/yourprofile" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">LinkedIn URL</th>
+            <td>
+                <input type="url" name="realEstate_ors_options[footer_linkedin_link]" value="<?php echo esc_attr($options['footer_linkedin_link']); ?>" placeholder="https://linkedin.com/in/yourprofile" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Twitter URL</th>
+            <td>
+                <input type="url" name="realEstate_ors_options[footer_twitter_link]" value="<?php echo esc_attr($options['footer_twitter_link']); ?>" placeholder="https://twitter.com/yourprofile" />
             </td>
         </tr>
     </table>
 <?php
 }
+
 /**
  * Summary of realEstate_ors_display_page_settings
  * @param mixed $options
@@ -756,3 +789,38 @@ function save_agents_meta_boxes($post_id)
 }
 add_action('add_meta_boxes', 'add_agents_meta_boxes');
 add_action('save_post', 'save_agents_meta_boxes');
+
+
+function realEstate_ors_widgets_init()
+{
+    register_sidebar(array(
+        'name'          => __('Footer Widget Area 1', 'realEstateOrs'),
+        'id'            => 'footer-widget-1',
+        'description'   => __('First footer widget area', 'realEstateOrs'),
+        'before_widget' => '<div class="footer-widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="footer-widget-title">',
+        'after_title'   => '</h3>',
+    ));
+
+    register_sidebar(array(
+        'name'          => __('Footer Widget Area 2', 'realEstateOrs'),
+        'id'            => 'footer-widget-2',
+        'description'   => __('Second footer widget area', 'realEstateOrs'),
+        'before_widget' => '<div class="footer-widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="footer-widget-title">',
+        'after_title'   => '</h3>',
+    ));
+
+    register_sidebar(array(
+        'name'          => __('Footer Widget Area 3', 'realEstateOrs'),
+        'id'            => 'footer-widget-3',
+        'description'   => __('Third footer widget area', 'realEstateOrs'),
+        'before_widget' => '<div class="footer-widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="footer-widget-title">',
+        'after_title'   => '</h3>',
+    ));
+}
+add_action('widgets_init', 'realEstate_ors_widgets_init');
