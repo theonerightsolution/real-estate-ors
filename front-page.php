@@ -74,275 +74,65 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
             <div class="col-12">
                 <div class="property-slider-wrap">
                     <div class="property-slider">
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_1.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
+                        <?php
+                        $args = array(
+                            'post_type' => 'property', // Custom post type slug
+                            'posts_per_page' => 10,    // Number of posts to show (you can adjust this)
+                        );
 
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
+                        $property_query = new WP_Query($args);
 
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
+                        if ($property_query->have_posts()) :
+                            while ($property_query->have_posts()) : $property_query->the_post();
+
+                                // Custom fields
+                                $price = get_post_meta(get_the_ID(), '_realestate_ors_price', true);
+                                $bedrooms = get_post_meta(get_the_ID(), '_realestate_ors_rooms', true);
+                                $bathrooms = get_post_meta(get_the_ID(), '_realestate_ors_bathrooms', true);
+                                $address = get_post_meta(get_the_ID(), '_realestate_ors_address', true);
+                                $state = get_post_meta(get_the_ID(), '_realestate_ors_state', true);
+                                $featured_image_url = get_the_post_thumbnail_url(get_the_ID(), 'medium'); // Adjust size as needed
+                        ?>
+
+                                <div class="property-item">
+                                    <a href="<?php the_permalink(); ?>" class="img">
+                                        <?php if ($featured_image_url): ?>
+                                            <img src="<?php echo esc_url($featured_image_url); ?>" alt="<?php the_title_attribute(); ?>" class="img-fluid" />
+                                        <?php else: ?>
+                                            <img src="<?php echo get_template_directory_uri() . '/assets/images/default.jpg'; ?>" alt="Default Image" class="img-fluid" />
+                                        <?php endif; ?>
+                                    </a>
+
+                                    <div class="property-content">
+                                        <div class="price mb-2"><span>$<?php echo esc_html($price); ?></span></div>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50"><?php echo esc_html($address); ?></span>
+                                            <span class="city d-block mb-3"><?php echo esc_html($state); ?></span>
+
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block d-flex align-items-center me-3">
+                                                    <span class="icon-bed me-2"></span>
+                                                    <span class="caption"><?php echo esc_html($bedrooms); ?> beds</span>
+                                                </span>
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="icon-bath me-2"></span>
+                                                    <span class="caption"><?php echo esc_html($bathrooms); ?> baths</span>
+                                                </span>
+                                            </div>
+
+                                            <a href="<?php the_permalink(); ?>" class="btn btn-primary py-2 px-3">See details</a>
+                                        </div>
                                     </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
 
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_2.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
+                        <?php
+                            endwhile;
+                            wp_reset_postdata();
+                        else :
+                            echo '<p>No properties found.</p>';
+                        endif;
+                        ?>
 
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_3.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_4.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_5.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_6.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_7.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_8.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
-
-                        <div class="property-item">
-                            <a href="property-single.html" class="img">
-                                <img src="<?php echo get_template_directory_uri() . '/assets/images/img_1.jpg' ?>" alt="Image" class="img-fluid" />
-                            </a>
-
-                            <div class="property-content">
-                                <div class="price mb-2"><span>$1,291,000</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                    <span class="city d-block mb-3">California, USA</span>
-
-                                    <div class="specs d-flex mb-4">
-                                        <span class="d-block d-flex align-items-center me-3">
-                                            <span class="icon-bed me-2"></span>
-                                            <span class="caption">2 beds</span>
-                                        </span>
-                                        <span class="d-block d-flex align-items-center">
-                                            <span class="icon-bath me-2"></span>
-                                            <span class="caption">2 baths</span>
-                                        </span>
-                                    </div>
-
-                                    <a
-                                        href="property-single.html"
-                                        class="btn btn-primary py-2 px-3">See details</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- .item -->
                     </div>
 
                     <div
@@ -640,105 +430,64 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                <div class="h-100 person">
-                    <img
-                        src="<?php echo get_template_directory_uri() . '/assets/images/person_1-min.jpg' ?>"
-                        alt="Image"
-                        class="img-fluid" />
+            <?php
+            // Query to get agents
+            $args = array(
+                'post_type'      => 'agents',
+                'posts_per_page' => 3, // Fetch all agents
+            );
+            $agents_query = new WP_Query($args);
 
-                    <div class="person-contents">
-                        <h2 class="mb-0"><a href="#">James Doe</a></h2>
-                        <span class="meta d-block mb-3">Real Estate Agent</span>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Facere officiis inventore cumque tenetur laboriosam, minus
-                            culpa doloremque odio, neque molestias?
-                        </p>
+            if ($agents_query->have_posts()) : ?>
+                <div class="row">
+                    <?php while ($agents_query->have_posts()) : $agents_query->the_post(); ?>
+                        <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
+                            <div class="h-100 person">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <img
+                                        src="<?php echo get_the_post_thumbnail_url(); ?>"
+                                        alt="<?php the_title(); ?>"
+                                        class="img-fluid" />
+                                <?php else : ?>
+                                    <img
+                                        src="<?php echo get_template_directory_uri() . '/assets/images/default-person.jpg'; ?>" <!-- Use a default image if no featured image -->
+                                    alt="Default Image"
+                                    class="img-fluid" />
+                                <?php endif; ?>
 
-                        <ul class="social list-unstyled list-inline dark-hover">
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-twitter"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-facebook"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-linkedin"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-instagram"></span></a>
-                            </li>
-                        </ul>
-                    </div>
+                                <div class="person-contents">
+                                    <h2 class="mb-0"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                                    <span class="meta d-block mb-3">
+                                        <?php echo get_post_meta(get_the_ID(), '_job_title', true); ?> <!-- Retrieve job title from meta -->
+                                    </span>
+                                    <p><?php the_content(); ?></p>
+
+                                    <ul class="social list-unstyled list-inline dark-hover">
+                                        <li class="list-inline-item">
+                                            <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_fb_link', true)); ?>"><span class="icon-facebook"></span></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_insta_link', true)); ?>"><span class="icon-instagram"></span></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_linkedin_link', true)); ?>"><span class="icon-linkedin"></span></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_twitter_link', true)); ?>"><span class="icon-twitter"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                <div class="h-100 person">
-                    <img
-                        src="<?php echo get_template_directory_uri() . '/assets/images/person_2-min.jpg' ?>"
-                        alt="Image"
-                        class="img-fluid" />
+            <?php
+            endif;
 
-                    <div class="person-contents">
-                        <h2 class="mb-0"><a href="#">Jean Smith</a></h2>
-                        <span class="meta d-block mb-3">Real Estate Agent</span>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Facere officiis inventore cumque tenetur laboriosam, minus
-                            culpa doloremque odio, neque molestias?
-                        </p>
+            // Reset post data
+            wp_reset_postdata();
+            ?>
 
-                        <ul class="social list-unstyled list-inline dark-hover">
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-twitter"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-facebook"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-linkedin"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-instagram"></span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                <div class="h-100 person">
-                    <img
-                        src="<?php echo get_template_directory_uri() . '/assets/images/person_3-min.jpg' ?>"
-                        alt="Image"
-                        class="img-fluid" />
-
-                    <div class="person-contents">
-                        <h2 class="mb-0"><a href="#">Alicia Huston</a></h2>
-                        <span class="meta d-block mb-3">Real Estate Agent</span>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Facere officiis inventore cumque tenetur laboriosam, minus
-                            culpa doloremque odio, neque molestias?
-                        </p>
-
-                        <ul class="social list-unstyled list-inline dark-hover">
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-twitter"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-facebook"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-linkedin"></span></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><span class="icon-instagram"></span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

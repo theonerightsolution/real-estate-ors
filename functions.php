@@ -259,7 +259,7 @@ add_action('admin_enqueue_scripts', 'realEstate_ors_enqueue_media_uploader');
 
 
 /**
- * Summary of realEstate_ors_register_post_type
+ * RealEstate Properties Post type registration
  * @return void
  */
 function realEstate_ors_register_post_type()
@@ -324,6 +324,105 @@ function realEstate_ors_register_post_type()
 
     register_taxonomy('property_category', array('property'), $taxonomy_args);
 }
+
+// Add meta boxes for property details
+function realEstate_ors_add_meta_boxes()
+{
+    add_meta_box(
+        'realestate_ors_property_details',
+        __('Property Details', 'textdomain'),
+        'realEstate_ors_property_details_callback',
+        'property'
+    );
+}
+
+add_action('add_meta_boxes', 'realEstate_ors_add_meta_boxes');
+
+function realEstate_ors_property_details_callback($post)
+{
+    wp_nonce_field('realestate_ors_save_details', 'realestate_ors_details_nonce');
+
+    $address = get_post_meta($post->ID, '_realestate_ors_address', true);
+    $state = get_post_meta($post->ID, '_realestate_ors_state', true);
+    $country = get_post_meta($post->ID, '_realestate_ors_country', true);
+    $rooms = get_post_meta($post->ID, '_realestate_ors_rooms', true);
+    $bathrooms = get_post_meta($post->ID, '_realestate_ors_bathrooms', true);
+    $price = get_post_meta($post->ID, '_realestate_ors_price', true);
+
+    echo '<label for="realestate_ors_address">' . __('Address', 'textdomain') . '</label>';
+    echo '<input type="text" id="realestate_ors_address" name="realestate_ors_address" value="' . esc_attr($address) . '" style="width: 100%;" />';
+
+    echo '<label for="realestate_ors_state">' . __('State', 'textdomain') . '</label>';
+    echo '<input type="text" id="realestate_ors_state" name="realestate_ors_state" value="' . esc_attr($state) . '" style="width: 100%;" />';
+
+    echo '<label for="realestate_ors_country">' . __('Country', 'textdomain') . '</label>';
+    echo '<input type="text" id="realestate_ors_country" name="realestate_ors_country" value="' . esc_attr($country) . '" style="width: 100%;" />';
+
+    echo '<label for="realestate_ors_rooms">' . __('No. of Rooms', 'textdomain') . '</label>';
+    echo '<input type="number" id="realestate_ors_rooms" name="realestate_ors_rooms" value="' . esc_attr($rooms) . '" min="0" />';
+
+    echo '<label for="realestate_ors_bathrooms">' . __('No. of Bathrooms', 'textdomain') . '</label>';
+    echo '<input type="number" id="realestate_ors_bathrooms" name="realestate_ors_bathrooms" value="' . esc_attr($bathrooms) . '" min="0" />';
+
+    echo '<label for="realestate_ors_price">' . __('Price', 'textdomain') . '</label>';
+    echo '<input type="number" id="realestate_ors_price" name="realestate_ors_price" value="' . esc_attr($price) . '" min="0" step="0.01" />';
+}
+
+function realEstate_ors_save_property_details($post_id)
+{
+    // Check if our nonce is set.
+    if (!isset($_POST['realestate_ors_details_nonce'])) {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['realestate_ors_details_nonce'], 'realestate_ors_save_details')) {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don’t want to do anything.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check the user's permissions.
+    if (isset($_POST['post_type']) && 'property' === $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    // Save the custom fields
+    $fields = [
+        '_realestate_ors_address',
+        '_realestate_ors_state',
+        '_realestate_ors_country',
+        '_realestate_ors_rooms',
+        '_realestate_ors_bathrooms',
+        '_realestate_ors_price',
+    ];
+
+    foreach ($fields as $field) {
+        if (isset($_POST[substr($field, 1)])) { // Strip leading underscore for input name
+            update_post_meta($post_id, $field, sanitize_text_field($_POST[substr($field, 1)]));
+        } else {
+            delete_post_meta($post_id, $field);
+        }
+    }
+}
+
+add_action('save_post', 'realEstate_ors_save_property_details');
+add_action('init', 'realEstate_ors_register_post_type');
+
+add_theme_support('post-thumbnails');
+
+// Add the existing image saving function as well
+add_action('save_post', 'realEstate_ors_save_images');
+
 
 // Add meta box for multiple images
 function realEstate_ors_add_image_meta_box()
@@ -429,7 +528,10 @@ add_action('init', 'realEstate_ors_register_post_type');
 add_theme_support('post-thumbnails');
 
 
-
+/**
+ * RealEstate Testimonial Post type registration
+ * @return void
+ */
 function realEstate_ors_register_testimonial_post_type()
 {
     $labels = array(
@@ -470,7 +572,10 @@ function realEstate_ors_register_testimonial_post_type()
 
 add_action('init', 'realEstate_ors_register_testimonial_post_type');
 
-// Add custom fields for "Position" and "Rating"
+/**
+ * Add custom fields for "Position" and "Rating"
+ * @return void
+ */
 function realEstate_ors_add_testimonial_metabox()
 {
     add_meta_box(
@@ -485,6 +590,11 @@ function realEstate_ors_add_testimonial_metabox()
 
 add_action('add_meta_boxes', 'realEstate_ors_add_testimonial_metabox');
 
+/**
+ * Testimonial Metaboxes HTML
+ * @param mixed $post
+ * @return void
+ */
 function realEstate_ors_testimonial_metabox_html($post)
 {
     // Retrieve current values
@@ -510,7 +620,11 @@ function realEstate_ors_testimonial_metabox_html($post)
 <?php
 }
 
-// Save custom field values
+/**
+ * Save testimonial Meta
+ * @param mixed $post_id
+ * @return void
+ */
 function realEstate_ors_save_testimonial_meta($post_id)
 {
     // Check for nonce and autosave
@@ -530,3 +644,115 @@ function realEstate_ors_save_testimonial_meta($post_id)
 }
 
 add_action('save_post', 'realEstate_ors_save_testimonial_meta');
+
+// Register Custom Post Type: Agents
+function create_agents_post_type()
+{
+    $labels = array(
+        'name'                  => _x('Agents', 'Post Type General Name', 'text_domain'),
+        'singular_name'         => _x('Agent', 'Post Type Singular Name', 'text_domain'),
+        'menu_name'             => __('Agents', 'text_domain'),
+        'name_admin_bar'        => __('Agent', 'text_domain'),
+        'archives'              => __('Agent Archives', 'text_domain'),
+        'attributes'            => __('Agent Attributes', 'text_domain'),
+        'parent_item_colon'     => __('Parent Agent:', 'text_domain'),
+        'all_items'             => __('All Agents', 'text_domain'),
+        'add_new_item'          => __('Add New Agent', 'text_domain'),
+        'add_new'               => __('Add New', 'text_domain'),
+        'new_item'              => __('New Agent', 'text_domain'),
+        'edit_item'             => __('Edit Agent', 'text_domain'),
+        'update_item'           => __('Update Agent', 'text_domain'),
+        'view_item'             => __('View Agent', 'text_domain'),
+        'view_items'            => __('View Agents', 'text_domain'),
+        'search_items'          => __('Search Agent', 'text_domain'),
+        'not_found'             => __('Not found', 'text_domain'),
+        'not_found_in_trash'    => __('Not found in Trash', 'text_domain'),
+        'featured_image'        => __('Featured Image', 'text_domain'),
+        'set_featured_image'    => __('Set featured image', 'text_domain'),
+        'remove_featured_image' => __('Remove featured image', 'text_domain'),
+        'use_featured_image'    => __('Use as featured image', 'text_domain'),
+        'insert_into_item'      => __('Insert into agent', 'text_domain'),
+        'uploaded_to_this_item' => __('Uploaded to this agent', 'text_domain'),
+        'items_list'            => __('Agents list', 'text_domain'),
+        'items_list_navigation'  => __('Agents list navigation', 'text_domain'),
+        'filter_items_list'     => __('Filter agents list', 'text_domain'),
+    );
+    $args = array(
+        'label'                 => __('Agent', 'text_domain'),
+        'description'           => __('Post Type for Agents', 'text_domain'),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail'), // Featured image support
+        'public'                => true,
+        'show_in_menu'          => true,
+        'show_in_admin_bar'     => true,
+        'menu_position'         => 5,
+        'show_in_rest'          => true, // Enable the block editor
+        'capability_type'       => 'post',
+        'has_archive'           => true,
+        'hierarchical'          => false,
+        'rewrite'               => array('slug' => 'agents'),
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'can_export'            => true,
+        'register_meta_box_cb'  => 'add_agents_meta_boxes', // Callback for meta boxes
+    );
+    register_post_type('agents', $args);
+}
+add_action('init', 'create_agents_post_type');
+
+// Add Meta Boxes
+function add_agents_meta_boxes()
+{
+    add_meta_box(
+        'agents_social_media',
+        __('Social Media Links', 'text_domain'),
+        'render_agents_social_media_meta_box',
+        'agents',
+        'normal',
+        'high'
+    );
+}
+
+// Render the meta box
+function render_agents_social_media_meta_box($post)
+{
+    // Retrieve existing values or set default
+    $fb_link = get_post_meta($post->ID, '_fb_link', true);
+    $insta_link = get_post_meta($post->ID, '_insta_link', true);
+    $linkedin_link = get_post_meta($post->ID, '_linkedin_link', true);
+    $twitter_link = get_post_meta($post->ID, '_twitter_link', true);
+
+    // Render the form fields
+?>
+    <label for="fb_link"><?php _e('Facebook URL:', 'text_domain'); ?></label>
+    <input type="text" id="fb_link" name="fb_link" value="<?php echo esc_attr($fb_link); ?>" style="width: 100%;" />
+
+    <label for="insta_link"><?php _e('Instagram URL:', 'text_domain'); ?></label>
+    <input type="text" id="insta_link" name="insta_link" value="<?php echo esc_attr($insta_link); ?>" style="width: 100%;" />
+
+    <label for="linkedin_link"><?php _e('LinkedIn URL:', 'text_domain'); ?></label>
+    <input type="text" id="linkedin_link" name="linkedin_link" value="<?php echo esc_attr($linkedin_link); ?>" style="width: 100%;" />
+
+    <label for="twitter_link"><?php _e('Twitter URL:', 'text_domain'); ?></label>
+    <input type="text" id="twitter_link" name="twitter_link" value="<?php echo esc_attr($twitter_link); ?>" style="width: 100%;" />
+<?php
+}
+
+// Save the meta box data
+function save_agents_meta_boxes($post_id)
+{
+    if (array_key_exists('fb_link', $_POST)) {
+        update_post_meta($post_id, '_fb_link', sanitize_text_field($_POST['fb_link']));
+    }
+    if (array_key_exists('insta_link', $_POST)) {
+        update_post_meta($post_id, '_insta_link', sanitize_text_field($_POST['insta_link']));
+    }
+    if (array_key_exists('linkedin_link', $_POST)) {
+        update_post_meta($post_id, '_linkedin_link', sanitize_text_field($_POST['linkedin_link']));
+    }
+    if (array_key_exists('twitter_link', $_POST)) {
+        update_post_meta($post_id, '_twitter_link', sanitize_text_field($_POST['twitter_link']));
+    }
+}
+add_action('add_meta_boxes', 'add_agents_meta_boxes');
+add_action('save_post', 'save_agents_meta_boxes');
