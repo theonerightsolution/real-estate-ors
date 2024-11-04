@@ -199,7 +199,126 @@ function realEstate_ors_display_header_settings($options)
                 ?>
             </td>
         </tr>
-
+        <tr valign="top">
+            <th scope="row">About Us Heading</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_heading]" value="<?php echo esc_attr($options['about_us_heading']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Body Text</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_body_text]" value="<?php echo esc_attr($options['about_us_body_text']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Key Point Text - 1</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_key_point_text_1]" value="<?php echo esc_attr($options['about_us_key_point_text_1']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Key Point Body - 1</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_key_point_body_1]" value="<?php echo esc_attr($options['about_us_key_point_body_1']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Key Point Text - 2</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_key_point_text_2]" value="<?php echo esc_attr($options['about_us_key_point_text_2']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Key Point Body - 2</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_key_point_body_2]" value="<?php echo esc_attr($options['about_us_key_point_body_2']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Key Point Text - 3</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_key_point_text_3]" value="<?php echo esc_attr($options['about_us_key_point_text_3']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">About Us Key Point Body - 3</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[about_us_key_point_body_3]" value="<?php echo esc_attr($options['about_us_key_point_body_3']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown Number:1</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="number" name="realEstate_ors_options[countdown_no_1]" value="<?php echo esc_attr($options['countdown_no_1']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown text:1</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[countdown_text_1]" value="<?php echo esc_attr($options['countdown_text_1']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown Number:2</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="number" name="realEstate_ors_options[countdown_no_2]" value="<?php echo esc_attr($options['countdown_no_2']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown text:2</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[countdown_text_2]" value="<?php echo esc_attr($options['countdown_text_2']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown Number:3</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="number" name="realEstate_ors_options[countdown_no_3]" value="<?php echo esc_attr($options['countdown_no_3']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown text:3</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[countdown_text_3]" value="<?php echo esc_attr($options['countdown_text_3']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown Number:4</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="number" name="realEstate_ors_options[countdown_no_4]" value="<?php echo esc_attr($options['countdown_no_4']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">Countdown text:4</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[countdown_text_4]" value="<?php echo esc_attr($options['countdown_text_4']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">CTA Heading</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[cta_heading]" value="<?php echo esc_attr($options['cta_heading']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">CTA Body Text</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[cta_body_text]" value="<?php echo esc_attr($options['cta_body_text']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">CTA Button Text</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="text" name="realEstate_ors_options[cta_button_text]" value="<?php echo esc_attr($options['cta_button_text']); ?>" />
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row">CTA Button URL</th>
+            <td class="bannerHeadingtextOrs">
+                <input type="url" name="realEstate_ors_options[cta_button_url]" value="<?php echo esc_attr($options['cta_button_url']); ?>" />
+            </td>
+        </tr>
 
     </table>
 <?php

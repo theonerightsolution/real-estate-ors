@@ -8,6 +8,27 @@ $banner_img_2 = esc_url($options['banner_image_2']);
 $banner_img_3 = esc_url($options['banner_image_3']);
 $banner_heading = esc_attr($options['banner_heading']);
 $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_text'] : '';
+$about_us_heading = esc_attr($options['about_us_heading']);
+$about_us_heading = str_replace("\\", "", $about_us_heading);
+$about_us_body_text = esc_attr($options['about_us_body_text']);
+$about_us_key_point_text_1 = esc_attr($options['about_us_key_point_text_1']);
+$about_us_key_point_text_2 = esc_attr($options['about_us_key_point_text_2']);
+$about_us_key_point_text_3 = esc_attr($options['about_us_key_point_text_3']);
+$about_us_key_point_body_1 = esc_attr($options['about_us_key_point_body_1']);
+$about_us_key_point_body_2 = esc_attr($options['about_us_key_point_body_2']);
+$about_us_key_point_body_3 = esc_attr($options['about_us_key_point_body_3']);
+$countdown_no_1 = (int)esc_attr($options['countdown_no_1']);
+$countdown_no_2 = (int)esc_attr($options['countdown_no_2']);
+$countdown_no_3 = (int)esc_attr($options['countdown_no_3']);
+$countdown_no_4 = (int)esc_attr($options['countdown_no_4']);
+$countdown_text_1 = esc_attr($options['countdown_text_1']);
+$countdown_text_2 = esc_attr($options['countdown_text_2']);
+$countdown_text_3 = esc_attr($options['countdown_text_3']);
+$countdown_text_4 = esc_attr($options['countdown_text_4']);
+$cta_heading = esc_attr($options['cta_heading']);
+$cta_body_text = esc_attr($options['cta_body_text']);
+$cta_button_text = esc_attr($options['cta_button_text']);
+$cta_button_url = esc_url($options['cta_button_url']);
 ?>
 <!-- Hero Slider -->
 <div class="hero">
@@ -299,11 +320,10 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
         <div class="row justify-content-center text-center mb-5">
             <div class="col-lg-5">
                 <h2 class="font-weight-bold heading text-primary mb-4">
-                    Let's find home that's perfect for you
+                    <?php echo esc_html($about_us_heading); ?>
                 </h2>
                 <p class="text-black-50">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-                    enim pariatur similique debitis vel nisi qui reprehenderit.
+                    <?php echo $about_us_body_text; ?>
                 </p>
             </div>
         </div>
@@ -319,10 +339,9 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                         <span class="icon-home2"></span>
                     </span>
                     <div class="feature-text">
-                        <h3 class="heading">2M Properties</h3>
+                        <h3 class="heading"><?php echo $about_us_key_point_text_1; ?></h3>
                         <p class="text-black-50">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Nostrum iste.
+                            <?php echo $about_us_key_point_body_1; ?>
                         </p>
                     </div>
                 </div>
@@ -332,10 +351,9 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                         <span class="icon-person"></span>
                     </span>
                     <div class="feature-text">
-                        <h3 class="heading">Top Rated Agents</h3>
+                        <h3 class="heading"><?php echo $about_us_key_point_text_2; ?></h3>
                         <p class="text-black-50">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Nostrum iste.
+                            <?php echo $about_us_key_point_body_2; ?>
                         </p>
                     </div>
                 </div>
@@ -345,10 +363,9 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                         <span class="icon-security"></span>
                     </span>
                     <div class="feature-text">
-                        <h3 class="heading">Legit Properties</h3>
+                        <h3 class="heading"><?php echo $about_us_key_point_text_3; ?></h3>
                         <p class="text-black-50">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Nostrum iste.
+                            <?php echo $about_us_key_point_body_3; ?>
                         </p>
                     </div>
                 </div>
@@ -360,8 +377,8 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                 data-aos="fade-up"
                 data-aos-delay="300">
                 <div class="counter-wrap mb-5 mb-lg-0">
-                    <span class="number"><span class="countup text-primary">3298</span></span>
-                    <span class="caption text-black-50"># of Buy Properties</span>
+                    <span class="number"><span class="countup text-primary"><?php echo $countdown_no_1; ?></span></span>
+                    <span class="caption text-black-50"><?php echo $countdown_text_1; ?></span>
                 </div>
             </div>
             <div
@@ -369,8 +386,8 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                 data-aos="fade-up"
                 data-aos-delay="400">
                 <div class="counter-wrap mb-5 mb-lg-0">
-                    <span class="number"><span class="countup text-primary">2181</span></span>
-                    <span class="caption text-black-50"># of Sell Properties</span>
+                    <span class="number"><span class="countup text-primary"><?php echo $countdown_no_2; ?></span></span>
+                    <span class="caption text-black-50"><?php echo $countdown_text_2; ?></span>
                 </div>
             </div>
             <div
@@ -378,8 +395,8 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                 data-aos="fade-up"
                 data-aos-delay="500">
                 <div class="counter-wrap mb-5 mb-lg-0">
-                    <span class="number"><span class="countup text-primary">9316</span></span>
-                    <span class="caption text-black-50"># of All Properties</span>
+                    <span class="number"><span class="countup text-primary"><?php echo $countdown_no_3; ?></span></span>
+                    <span class="caption text-black-50"><?php echo $countdown_text_3; ?></span>
                 </div>
             </div>
             <div
@@ -387,8 +404,8 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
                 data-aos="fade-up"
                 data-aos-delay="600">
                 <div class="counter-wrap mb-5 mb-lg-0">
-                    <span class="number"><span class="countup text-primary">7191</span></span>
-                    <span class="caption text-black-50"># of Agents</span>
+                    <span class="number"><span class="countup text-primary"><?php echo $countdown_no_4; ?></span></span>
+                    <span class="caption text-black-50"><?php echo $countdown_text_4; ?></span>
                 </div>
             </div>
         </div>
@@ -400,12 +417,13 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
 <div class="section">
     <div class="row justify-content-center footer-cta" data-aos="fade-up">
         <div class="col-lg-7 mx-auto text-center">
-            <h2 class="mb-4">Be a part of our growing real state agents</h2>
+            <h2 class="mb-4"><?php echo $cta_heading; ?></h2>
+            <p><?php echo $cta_body_text; ?></p>
             <p>
                 <a
-                    href="#"
+                    href="<?php echo $cta_button_url; ?>"
                     target="_blank"
-                    class="btn btn-primary text-white py-3 px-4">Apply for Real Estate agent</a>
+                    class="btn btn-primary text-white py-3 px-4"><?php echo $cta_button_text; ?></a>
             </p>
         </div>
         <!-- /.col-lg-7 -->
