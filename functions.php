@@ -427,3 +427,106 @@ add_action('save_post', 'realEstate_ors_save_images');
 add_action('init', 'realEstate_ors_register_post_type');
 
 add_theme_support('post-thumbnails');
+
+
+
+function realEstate_ors_register_testimonial_post_type()
+{
+    $labels = array(
+        'name'               => _x('Testimonials', 'post type general name', 'textdomain'),
+        'singular_name'      => _x('Testimonial', 'post type singular name', 'textdomain'),
+        'menu_name'          => _x('Testimonials', 'admin menu', 'textdomain'),
+        'name_admin_bar'     => _x('Testimonial', 'add new on admin bar', 'textdomain'),
+        'add_new'            => _x('Add New', 'testimonial', 'textdomain'),
+        'add_new_item'       => __('Add New Testimonial', 'textdomain'),
+        'new_item'           => __('New Testimonial', 'textdomain'),
+        'edit_item'          => __('Edit Testimonial', 'textdomain'),
+        'view_item'          => __('View Testimonial', 'textdomain'),
+        'all_items'          => __('All Testimonials', 'textdomain'),
+        'search_items'       => __('Search Testimonials', 'textdomain'),
+        'parent_item_colon'  => __('Parent Testimonials:', 'textdomain'),
+        'not_found'          => __('No testimonials found.', 'textdomain'),
+        'not_found_in_trash' => __('No testimonials found in Trash.', 'textdomain'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'testimonials'),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array('title', 'editor', 'thumbnail'), // Includes title and description (editor)
+        'menu_icon'          => 'dashicons-testimonial', // Optional: Sets an icon in the admin menu
+    );
+
+    register_post_type('testimonial', $args);
+}
+
+add_action('init', 'realEstate_ors_register_testimonial_post_type');
+
+// Add custom fields for "Position" and "Rating"
+function realEstate_ors_add_testimonial_metabox()
+{
+    add_meta_box(
+        'testimonial_details', // Unique ID
+        'Testimonial Details', // Box title
+        'realEstate_ors_testimonial_metabox_html', // Content callback
+        'testimonial', // Post type
+        'normal',
+        'default'
+    );
+}
+
+add_action('add_meta_boxes', 'realEstate_ors_add_testimonial_metabox');
+
+function realEstate_ors_testimonial_metabox_html($post)
+{
+    // Retrieve current values
+    $position = get_post_meta($post->ID, '_testimonial_position', true);
+    $rating = get_post_meta($post->ID, '_testimonial_rating', true);
+
+    // Security nonce field
+    wp_nonce_field('testimonial_details_nonce', 'testimonial_details_nonce_field');
+
+?>
+    <p>
+        <label for="testimonial_position">Position:</label>
+        <input type="text" name="testimonial_position" id="testimonial_position" value="<?php echo esc_attr($position); ?>" class="widefat" />
+    </p>
+    <p>
+        <label for="testimonial_rating">Rating:</label>
+        <select name="testimonial_rating" id="testimonial_rating" class="widefat">
+            <?php for ($i = 0; $i <= 5; $i++): ?>
+                <option value="<?php echo $i; ?>" <?php selected($rating, $i); ?>><?php echo $i; ?></option>
+            <?php endfor; ?>
+        </select>
+    </p>
+<?php
+}
+
+// Save custom field values
+function realEstate_ors_save_testimonial_meta($post_id)
+{
+    // Check for nonce and autosave
+    if (!isset($_POST['testimonial_details_nonce_field']) || !wp_verify_nonce($_POST['testimonial_details_nonce_field'], 'testimonial_details_nonce') || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)) {
+        return;
+    }
+
+    // Save "Position" field
+    if (isset($_POST['testimonial_position'])) {
+        update_post_meta($post_id, '_testimonial_position', sanitize_text_field($_POST['testimonial_position']));
+    }
+
+    // Save "Rating" field
+    if (isset($_POST['testimonial_rating'])) {
+        update_post_meta($post_id, '_testimonial_rating', intval($_POST['testimonial_rating']));
+    }
+}
+
+add_action('save_post', 'realEstate_ors_save_testimonial_meta');

@@ -444,109 +444,59 @@ $banner_body_text = isset($options['banner_body_text']) ? $options['banner_body_
         </div>
         <div class="testimonial-slider-wrap">
             <div class="testimonial-slider">
-                <div class="item">
-                    <div class="testimonial">
-                        <img
-                            src="<?php echo get_template_directory_uri() . '/assets/images/person_1-min.jpg' ?>"
-                            alt="Image"
-                            class="img-fluid rounded-circle w-25 mb-4" />
-                        <div class="rate">
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                        </div>
-                        <h3 class="h5 text-primary mb-4">James Smith</h3>
-                        <blockquote>
-                            <p>
-                                &ldquo;Far far away, behind the word mountains, far from the
-                                countries Vokalia and Consonantia, there live the blind
-                                texts. Separated they live in Bookmarksgrove right at the
-                                coast of the Semantics, a large language ocean.&rdquo;
-                            </p>
-                        </blockquote>
-                        <p class="text-black-50">Designer, Co-founder</p>
-                    </div>
-                </div>
+                <?php
+                // Start the custom query loop for 'testimonial' post type
+                $args = array(
+                    'post_type' => 'testimonial',
+                    'posts_per_page' => -1 // Change this to limit the number of testimonials displayed
+                );
 
-                <div class="item">
-                    <div class="testimonial">
-                        <img
-                            src="<?php echo get_template_directory_uri() . '/assets/images/person_2-min.jpg' ?>"
-                            alt="Image"
-                            class="img-fluid rounded-circle w-25 mb-4" />
-                        <div class="rate">
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                        </div>
-                        <h3 class="h5 text-primary mb-4">Mike Houston</h3>
-                        <blockquote>
-                            <p>
-                                &ldquo;Far far away, behind the word mountains, far from the
-                                countries Vokalia and Consonantia, there live the blind
-                                texts. Separated they live in Bookmarksgrove right at the
-                                coast of the Semantics, a large language ocean.&rdquo;
-                            </p>
-                        </blockquote>
-                        <p class="text-black-50">Designer, Co-founder</p>
-                    </div>
-                </div>
+                $query = new WP_Query($args);
 
-                <div class="item">
-                    <div class="testimonial">
-                        <img
-                            src="<?php echo get_template_directory_uri() . '/assets/images/person_3-min.jpg' ?>"
-                            alt="Image"
-                            class="img-fluid rounded-circle w-25 mb-4" />
-                        <div class="rate">
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                        </div>
-                        <h3 class="h5 text-primary mb-4">Cameron Webster</h3>
-                        <blockquote>
-                            <p>
-                                &ldquo;Far far away, behind the word mountains, far from the
-                                countries Vokalia and Consonantia, there live the blind
-                                texts. Separated they live in Bookmarksgrove right at the
-                                coast of the Semantics, a large language ocean.&rdquo;
-                            </p>
-                        </blockquote>
-                        <p class="text-black-50">Designer, Co-founder</p>
-                    </div>
-                </div>
+                if ($query->have_posts()) :
+                    while ($query->have_posts()) : $query->the_post();
+                        // Get custom field values
+                        $position = get_post_meta(get_the_ID(), '_testimonial_position', true);
+                        $rating = get_post_meta(get_the_ID(), '_testimonial_rating', true);
+                        $featured_image_url = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'); // Assuming the featured image is used for the author’s photo
+                        $name = get_the_title(); // Testimonial author's name
+                        $description = get_the_content(); // Testimonial content
+                ?>
 
-                <div class="item">
-                    <div class="testimonial">
-                        <img
-                            src="<?php echo get_template_directory_uri() . '/assets/images/person_4-min.jpg' ?>"
-                            alt="Image"
-                            class="img-fluid rounded-circle w-25 mb-4" />
-                        <div class="rate">
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
-                            <span class="icon-star text-warning"></span>
+                        <div class="item">
+                            <div class="testimonial">
+                                <img
+                                    src="<?php echo esc_url($featured_image_url ? $featured_image_url : get_template_directory_uri() . '/assets/images/person_1-min.jpg'); ?>"
+                                    alt="<?php echo esc_attr($name); ?>"
+                                    class="img-fluid rounded-circle w-25 mb-4" />
+
+                                <div class="rate">
+                                    <?php
+                                    // Loop to output star icons based on rating
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        echo '<span class="icon-star ' . ($i <= $rating ? 'text-warning' : 'text-muted') . '"></span>';
+                                    }
+                                    ?>
+                                </div>
+
+                                <h3 class="h5 text-primary mb-4"><?php echo esc_html($name); ?></h3>
+
+                                <blockquote>
+                                    <p>&ldquo;<?php echo esc_html($description); ?>&rdquo;</p>
+                                </blockquote>
+
+                                <p class="text-black-50"><?php echo esc_html($position); ?></p>
+                            </div>
                         </div>
-                        <h3 class="h5 text-primary mb-4">Dave Smith</h3>
-                        <blockquote>
-                            <p>
-                                &ldquo;Far far away, behind the word mountains, far from the
-                                countries Vokalia and Consonantia, there live the blind
-                                texts. Separated they live in Bookmarksgrove right at the
-                                coast of the Semantics, a large language ocean.&rdquo;
-                            </p>
-                        </blockquote>
-                        <p class="text-black-50">Designer, Co-founder</p>
-                    </div>
-                </div>
+
+                <?php
+                    endwhile;
+                    wp_reset_postdata();
+                else :
+                    echo '<p>No testimonials found.</p>';
+                endif;
+                ?>
+
             </div>
         </div>
     </div>
