@@ -39,6 +39,14 @@ get_header();
                     <div class="entry-content mb-4">
                         <?php
                         the_content(); // Display full content of the post
+
+                        // Add pagination for multiple page posts
+                        wp_link_pages(array(
+                            'before' => '<div class="page-links">' . __('Pages:', 'real-estate-ors'),
+                            'after' => '</div>',
+                            'link_before' => '<span class="page-number">',
+                            'link_after' => '</span>',
+                        ));
                         ?>
                     </div>
 
@@ -71,6 +79,21 @@ get_header();
                 <div class="realEstate_ors_comments">
                     <?php comments_template(); // Load comments template 
                     ?>
+
+                    <?php
+                    // Add comment pagination if there are multiple comment pages
+                    if (get_comment_pages_count() > 1 && get_option('page_comments')) : ?>
+                        <div class="comment-pagination">
+                            <?php
+                            // Use paginate_comments_links for comment pagination
+                            paginate_comments_links(array(
+                                'prev_text' => __('&laquo; Previous', 'real-estate-ors'),
+                                'next_text' => __('Next &raquo;', 'real-estate-ors'),
+                                'type' => 'list', // You can use 'plain' for a different format
+                            ));
+                            ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
