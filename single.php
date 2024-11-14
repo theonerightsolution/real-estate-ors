@@ -34,6 +34,14 @@ get_header();
                             <span class="byline"> by <?php the_author(); ?></span> |
                             <span class="comments-link"><?php comments_number(); ?></span>
                         </div>
+                        <?php
+                        // Inside the loop where you display the post
+                        if (has_tag()) :
+                        ?>
+                            <div class="post-tags">
+                                <p><strong>Tags:</strong> <?php the_tags('', ', ', ''); ?></p>
+                            </div>
+                        <?php endif; ?>
                     </header>
 
                     <div class="entry-content mb-4">

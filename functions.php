@@ -10,17 +10,59 @@ require_once('classes/wp-bootstrap-navlist-walker.php');
  */
 function realEstate_ors_setup()
 {
-
+    // Basic theme support
     add_theme_support('title-tag');
     add_theme_support('automatic-feed-links');
     add_theme_support('post-thumbnails');
+
+    // Block Styles and Responsive Embeds
+    add_theme_support("wp-block-styles");
+    add_theme_support("responsive-embeds");
+
+    // HTML5 support
+    add_theme_support("html5", array(
+        "search-form",
+        "comment-form",
+        "comment-list",
+        "gallery",
+        "caption"
+    ));
+
+    // Custom Logo
+    add_theme_support("custom-logo", array(
+        "height"      => 100,
+        "width"       => 400,
+        "flex-height" => true,
+        "flex-width"  => true,
+    ));
+
+    // Custom Header
+    add_theme_support("custom-header", array(
+        "width"         => 1920,
+        "height"        => 500,
+        "flex-height"   => true,
+        "flex-width"    => true,
+    ));
+
+    // Custom Background
+    add_theme_support("custom-background", array(
+        "default-color" => "ffffff",
+        "default-image" => "",
+    ));
+
+    // Wide Alignment
+    add_theme_support("align-wide");
+
+    // Register Navigation Menus
     register_nav_menus(array(
         'primary' => __('Primary Menu', 'real-estate-ors'), // Primary Menu
         'footer'  => __('Footer Menu', 'real-estate-ors'),  // Footer Menu
-        'footer2'  => __('Footer Menu 2', 'real-estate-ors'),  // Footer Menu
+        'footer2' => __('Footer Menu 2', 'real-estate-ors'), // Footer Menu 2
     ));
 }
-add_action('after_setup_theme', 'realEstate_ors_setup');
+
+add_action("after_setup_theme", "realEstate_ors_setup");
+
 
 /**
  * Enqueue styles and scripts
@@ -50,6 +92,18 @@ function realEstate_ors_theme_enqueue_scripts()
 }
 add_action('wp_enqueue_scripts', 'realEstate_ors_theme_enqueue_scripts');
 
+/**
+ * Summary of realEstate_ors_enqueue_comments_reply
+ * @return void
+ */
+function realEstate_ors_enqueue_comments_reply()
+{
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
+}
+add_action('wp_enqueue_scripts', 'realEstate_ors_enqueue_comments_reply');
+
 
 /**
  * Summary of Register theme settings
@@ -61,6 +115,76 @@ function realEstate_ors_register_settings()
     register_setting('realEstate_ors_options_group', 'realEstate_ors_options');
 }
 add_action('admin_init', 'realEstate_ors_register_settings');
+
+
+/**
+ * Summary of realEstate_ors_admin_styles
+ * @return void
+ */
+function realEstate_ors_admin_styles()
+{
+    add_editor_style('editor-style.css');
+}
+add_action('admin_init', 'realEstate_ors_admin_styles');
+
+
+/**
+ * Summary of realEstate_ors_register_block_styles
+ * @return void
+ */
+function realEstate_ors_register_block_styles()
+{
+    // Register a custom style for the paragraph block
+    register_block_style(
+        'core/paragraph', // The block type to which the style will be added
+        array(
+            'name'  => 'highlighted', // The custom style name
+            'label' => __('Highlighted Text', 'real-estate-ors'), // The label for the style in the editor
+        )
+    );
+
+    // Register a custom style for the button block
+    register_block_style(
+        'core/button', // The block type for the button
+        array(
+            'name'  => 'primary', // The custom style name
+            'label' => __('Primary Button', 'real-estate-ors'), // The label for the style
+        )
+    );
+}
+add_action('init', 'realEstate_ors_register_block_styles');
+
+
+function realEstate_ors_register_block_patterns()
+{
+    // Register a custom block pattern
+    register_block_pattern(
+        'real-estate-ors/hero-section', // Unique name for the block pattern
+        array(
+            'title'       => __('Hero Section', 'real-estate-ors'),
+            'description' => __('A hero section with a background image and call to action button.', 'real-estate-ors'),
+            'content'     => "<!-- wp:group {\"align\":\"full\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"80px\",\"bottom\":\"80px\"}}}} -->
+            <div class=\"wp-block-group\" style=\"padding-top:80px;padding-bottom:80px;\">
+                <!-- wp:image {\"id\":1,\"sizeSlug\":\"full\"} -->
+                <figure class=\"wp-block-image size-full\"><img src=\"your-image-url.jpg\" alt=\"Hero Image\" /></figure>
+                <!-- /wp:image -->
+                <!-- wp:heading {\"level\":1} -->
+                <h1>Welcome to Our Website</h1>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph -->
+                <p>Your tagline or call to action here.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:button -->
+                <div class=\"wp-block-button\"><a class=\"wp-block-button__link\" href=\"#\">Learn More</a></div>
+                <!-- /wp:button -->
+            </div>
+            <!-- /wp:group -->",
+        )
+    );
+}
+add_action('init', 'realEstate_ors_register_block_patterns');
+
+
 
 /**
  * Summary of Register admin menu
@@ -89,6 +213,8 @@ function realEstate_ors_save_options($new_options)
     $merged_options = array_merge($current_options, $new_options);
     update_option('realEstate_ors_options', $merged_options);
 }
+
+
 
 /**
  * Summary of Setting Page Tabs

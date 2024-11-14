@@ -87,12 +87,12 @@ $copyright_url = esc_url($options['copyright_url']);
 
                 <p>
                     Copyright &copy;
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script>
-                    . All Rights Reserved. &mdash; Designed with love by
-                    <a href="<?php echo esc_url($copyright_url); ?>"><?php echo esc_html($copyright_text); ?></a>
+                    <?php echo date("Y"); ?>. All Rights Reserved. &mdash; Designed with love by
+                    <a href="<?php echo esc_url($copyright_url); ?>">
+                        <?php echo esc_html($copyright_text); ?>
+                    </a>
                 </p>
+
 
             </div>
         </div>
@@ -100,6 +100,7 @@ $copyright_url = esc_url($options['copyright_url']);
     <!-- /.container -->
 </div>
 <!-- Footer Ending -->
+<a href="#content" class="screen-reader-text">Skip to content</a>
 
 <!-- Preloader -->
 <div id="overlayer"></div>

@@ -17,11 +17,6 @@ $logo_url = esc_url($options['header_image']);
     <meta name="keywords" content="bootstrap, bootstrap5" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title><?php bloginfo('name');  ?>
-        <?php wp_title(); ?>
-        <?php if (is_front_page()) {
-            echo "| ", bloginfo('description');
-        } ?></title>
 </head>
 
 <body class="<?php body_class(); ?>">
