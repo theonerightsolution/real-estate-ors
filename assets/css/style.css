@@ -13668,3 +13668,68 @@ span.page-numbers.current {
   padding: 5px 12px;
   border-radius: 8px;
 }
+
+.wp-caption {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 5px;
+  background-color: #f9f9f9;
+}
+
+.wp-caption img {
+  display: block;
+  margin: 0 auto;
+}
+.wp-caption-text {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  margin-top: 5px;
+}
+.gallery-caption {
+  font-size: 13px;
+  color: #777;
+  text-align: center;
+  padding: 3px 0;
+}
+.bypostauthor {
+  font-style: italic;
+  color: #555;
+}
+
+.bypostauthor .author-name {
+  font-weight: bold;
+}
+.alignright {
+  float: right;
+  margin-left: 15px;
+  margin-bottom: 15px;
+}
+.alignleft {
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-tags {
+  text-align: left !important;
+}
+
+/* Hide screen reader text visually but keep it accessible to screen readers */
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+}
